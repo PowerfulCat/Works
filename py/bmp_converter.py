@@ -8,7 +8,7 @@ def rgb332(r, g, b):
     g = g >> 5
     b = b >> 6
     c = r << 5 | g << 2 | b
-    return c
+    return [c]
 
 
 def rgb565(r, g, b):
@@ -16,7 +16,7 @@ def rgb565(r, g, b):
     g = g >> 2
     b = b >> 3
     c = r << 11 | g << 5 | b
-    return c
+    return [c >> 8, c & 0xff]
 
 
 def convert(cvt, path, subpath):
@@ -31,12 +31,18 @@ def convert(cvt, path, subpath):
             im = Image.open(os.path.join(path, file))
             width, height = im.size
             v = [cvt(r, g, b) for (r, g, b) in im.getdata()]
-            v = [width & 0xff, width >> 8, height & 0xff, height >> 8] + v
-            v = array.array('B', v)
+            b = bytearray()
+            b.append(width & 0xff)
+            b.append(width >> 8)
+            b.append(height & 0xff)
+            b.append(height >> 8)
+            for pair in v:
+                for i in pair:
+                    b.append(i)
             f = open(os.path.join(subpath, file), "wb")
-            f.write(v)
+            f.write(b)
             f.close()
         break
 
 
-convert(rgb332, 'bmp', 'rgb332')
+convert(rgb565, 'bmp', 'rgb565')
