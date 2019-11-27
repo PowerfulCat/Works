@@ -114,13 +114,13 @@ text & text::thickness(pix_t value){
     tft.setTextSize(uint8_t(value));
     return this[0];
 }
-text & text::line_height(pix_t * value) {
+text & text::font_height(pix_t * value) {
     font(font());
     thickness(thickness());
     value[0] = tft.fontHeight();
     return this[0];
 }
-text & text::line_width(pix_t * value) {
+text & text::content_width(pix_t * value) {
     font(font());
     thickness(thickness());
     value[0] = tft.textWidth(_value);
@@ -128,8 +128,8 @@ text & text::line_width(pix_t * value) {
 }
 
 void text::draw(){
-    pix_t   height = line_height();
-    pix_t   width = line_width();
+    pix_t   height = font_height();
+    pix_t   width = content_width();
     point   p = adjust(width, height);
     if (_align == center){
         p.x += (_width - width) / 2;

@@ -262,7 +262,7 @@ public:
         for (size_t i = 0; i <= m.tick; i++, p += strlen(p) + 1) {
             sprintf(p, _format, m.start_value + i * m.step);
             y_tick_value.push_back(
-                text().value(p).origin(right).vorigin(vcenter).line_width(&w)
+                text().value(p).origin(right).vorigin(vcenter).content_width(&w)
             );
             if (max_y_tick_pix_width < w) {
                 max_y_tick_pix_width = w;
@@ -271,10 +271,10 @@ public:
 
         //1.5 -> 0.5为y轴刻度值高度的一半 1.0为x轴刻度的高度
         auto x_extend_step = _value.size() != 0 ? 1.5 : 0.5;
-        auto y_extend_height = _tick + x_extend_step * x_tick_value_template.line_height(); 
+        auto y_extend_height = _tick + x_extend_step * x_tick_value_template.font_height(); 
         auto y_extend_width  = _tick + max_y_tick_pix_width;
         auto x       = _x + y_extend_width;
-        auto y       = _y + 0.5 * x_tick_value_template.line_height();
+        auto y       = _y + 0.5 * x_tick_value_template.font_height();
         auto width   = _width - y_extend_width;
         auto height  = _height - y_extend_height;
         auto origin  = point(x, y + height);

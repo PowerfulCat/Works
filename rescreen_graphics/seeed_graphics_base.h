@@ -136,8 +136,8 @@ namespace detail {
         xpoint(return_type);
         xprop(pix_t,       width, (return_type*));
         xprop(pix_t,       height, (return_type*));
-        xprop(text_align,  origin, (return_type*));
-        xprop(text_valign, vorigin, (return_type*));
+        xprop(align_type,  origin, (return_type*));
+        xprop(valign_type, vorigin, (return_type*));
     //protected:
         point adjust(pix_t width, pix_t height) {
             auto x = _x;
@@ -370,18 +370,18 @@ public:
     xprop(pix_t,       font_size);
     xprop(color_t,     color);
     xprop(text_t,      value);
-    xprop(text_align,  align);
-    xprop(text_valign, valign);
-    text & line_height(pix_t * value);
-    text & line_width(pix_t * value);
-    pix_t line_height() {
+    xprop(align_type,  align);
+    xprop(valign_type, valign);
+    text & font_height(pix_t * value);
+    text & content_width(pix_t * value);
+    pix_t font_height() {
         pix_t height;
-        line_height(& height);
+        font_height(& height);
         return height;
     }
-    pix_t line_width() {
+    pix_t content_width() {
         pix_t width;
-        line_width(& width);
+        content_width(& width);
         return width;
     }
 

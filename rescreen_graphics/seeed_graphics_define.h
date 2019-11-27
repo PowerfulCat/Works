@@ -32,24 +32,22 @@ namespace std{
 typedef const char *    text_t;
 typedef int16_t         pos_t;
 typedef uint16_t        pix_t;
-typedef uint32_t color_t;
+typedef uint32_t        color_t;
 
 enum class font_t      : uint16_t {};
-enum class text_align  : uint8_t {};
-enum class text_valign : uint8_t {};
+enum class align_type  : uint8_t {};
+enum class valign_type : uint8_t {};
 enum class orientation : uint8_t {};
 
-constexpr pix_t       screen_width = 320;
-constexpr pix_t       screen_height = 240;
 constexpr orientation horizon  = orientation(0);
 constexpr orientation vertical = orientation(1);
 
-constexpr text_align  left    = text_align(0);
-constexpr text_align  center  = text_align(1);
-constexpr text_align  right   = text_align(2);
-constexpr text_valign top     = text_valign(0);
-constexpr text_valign vcenter = text_valign(1);
-constexpr text_valign bottom  = text_valign(2);
+constexpr align_type  left    = align_type(0);
+constexpr align_type  center  = align_type(1);
+constexpr align_type  right   = align_type(2);
+constexpr valign_type top     = valign_type(0);
+constexpr valign_type vcenter = valign_type(1);
+constexpr valign_type bottom  = valign_type(2);
 
 constexpr color_t black             = 0x0000;      /*   0,   0,   0 */
 constexpr color_t navy              = 0x000F;      /*   0,   0, 128 */
