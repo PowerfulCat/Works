@@ -9,6 +9,7 @@
 #include<initializer_list>
 #include<list>
 #include<vector>
+#include<queue>
 #include<stdint.h>
 #pragma pop(min)
 #pragma pop(max)
@@ -24,15 +25,17 @@ namespace std{
 #include<initializer_list>
 #include<list>
 #include<vector>
+#include<queue>
 #include<stdint.h>
 #include<limits.h>
 #endif
 #include<string>
 
-typedef const char *    text_t;
-typedef int16_t         pos_t;
-typedef uint16_t        pix_t;
-typedef uint32_t        color_t;
+typedef const char *        text_t;
+typedef int16_t             pos_t;
+typedef uint16_t            pix_t;
+typedef uint32_t            color_t;
+typedef std::queue<double>  doubles;
 
 enum class font_t      : uint16_t {};
 enum class align_type  : uint8_t {};
@@ -48,6 +51,7 @@ constexpr align_type  right   = align_type(2);
 constexpr valign_type top     = valign_type(0);
 constexpr valign_type vcenter = valign_type(1);
 constexpr valign_type bottom  = valign_type(2);
+
 
 constexpr color_t black             = 0x0000;      /*   0,   0,   0 */
 constexpr color_t navy              = 0x000F;      /*   0,   0, 128 */

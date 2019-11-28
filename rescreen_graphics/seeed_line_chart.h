@@ -17,20 +17,21 @@ struct range {
             return;
         }
 
-        max_value = list[0][0];
-        min_value = list[0][0];
+        min_value = max_value = list[0].front();
 
         for (size_t i = 0; i < list.size(); i++) {
             if (max_count < list[i].size()) {
                 max_count = list[i].size();
             }
             for (size_t j = 0; j < list[i].size(); j++) {
-                if (max_value < list[i][j]) {
-                    max_value = list[i][j];
+                if (max_value < list[i].front()) {
+                    max_value = list[i].front();
                 }
-                else if (min_value > list[i][j]) {
-                    min_value = list[i][j];
+                else if (min_value > list[i].front()) {
+                    min_value = list[i].front();
                 }
+                list[i].push(list[i].front());
+                list[i].pop();
             }
         }
     }
@@ -229,21 +230,22 @@ public:
 
     xprop(std::vector<text_t>, note);
 private:
-    typedef std::vector<double> doubles;
     std::vector<doubles> _value;
 public:
-    auto & value(std::vector<double> list){
-       _value.clear();
-       _value.push_back(list);
-       return this[0];
-   }
-    template<class ... arg>
-    auto & value(std::initializer_list<arg> ... list){
-        std::initializer_list<double> val[] = { list... };
+    auto & value(doubles const & list){
         _value.clear();
-        for (size_t i = 0; i < sizeof...(arg); i++) {
-            _value.push_back(doubles(val[i]));
+        _value.push_back(list);
+        return this[0];
+    }
+    auto & value(std::vector<double> const & list){
+        doubles que;
+        for(auto i : list){
+            que.push(i);
         }
+        return value(que);
+    }
+    auto & value(std::vector<doubles> const & items){
+        _value = items;
         return this[0];
     }
 
@@ -283,6 +285,7 @@ public:
         auto x_start = origin(-_tick, 0);
         auto x_end   = origin(width, 0);
         
+
         if (_value.size()) draw_tick(_value, m.tick, height, [&](size_t i, pix_t y) {
             auto p0 = origin(0, -(pos_t)y);
             auto p1 = origin(-_tick, -(pos_t)y);
@@ -330,12 +333,15 @@ public:
 
         //·绘制折线
         for (size_t i = 0; i < _value.size(); i++) {
-            auto default_color = _color[std::min(i, _color.size() - 1)];
-            auto show_circle = _show_circle[std::min(i, _show_circle.size() - 1)];
+            doubles cur = _value[i];
+            auto    default_color = _color[std::min(i, _color.size() - 1)];
+            auto    show_circle = _show_circle[std::min(i, _show_circle.size() - 1)];
             std::vector<point> value_point;
-            for (size_t j = 0; j < _value[i].size() - 1; j++) {
-                auto a  = _value[i][j];
-                auto b  = _value[i][j + 1];
+
+            for(int j = 0; j < cur.size() - 1; j++){
+                cur.push(cur.front());
+                auto a  = cur.front(); cur.pop();
+                auto b  = cur.front();
                 auto ha = pos_t(round((a - m.start_value) / m.abs_value * height));
                 auto hb = pos_t(round((b - m.start_value) / m.abs_value * height));
                 auto pa = origin(pos_t((j + x_skip_tick) * x_step + x_offset), -(pos_t)ha);
